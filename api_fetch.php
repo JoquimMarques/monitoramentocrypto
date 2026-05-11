@@ -5,7 +5,10 @@ header('Content-Type: application/json');
 
 include 'db_config.php';
 
-$url = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1&sparkline=false";
+$limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 20;
+if ($limit < 1 || $limit > 100) $limit = 20;
+
+$url = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=" . $limit . "&page=1&sparkline=false";
 
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $url);

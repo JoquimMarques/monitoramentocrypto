@@ -84,6 +84,26 @@ header {
     box-shadow: 0 0 15px var(--primary-glow);
 }
 
+.limit-box select {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 2rem;
+    padding: 0.6rem 1rem;
+    color: white;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.limit-box select:hover {
+    border-color: var(--primary);
+}
+
+.limit-box select option {
+    background: var(--bg-card);
+    color: white;
+}
+
 .btn-history {
     background: var(--primary);
     color: white;

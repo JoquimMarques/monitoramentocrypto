@@ -15,6 +15,13 @@
             <div class="search-box">
                 <input type="text" id="searchInput" placeholder="Pesquisar moeda...">
             </div>
+            <div class="limit-box">
+                <select id="limitSelect" title="Quantidade de moedas">
+                    <option value="20">Top 20</option>
+                    <option value="50">Top 50</option>
+                    <option value="100">Top 100</option>
+                </select>
+            </div>
             <button class="btn-history" id="openHistory">Ver Histórico</button>
             <div id="lastUpdate" style="font-size: 0.8rem; color: var(--text-dim);">
                 Atualização em tempo real

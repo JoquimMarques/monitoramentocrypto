@@ -2,8 +2,18 @@ let allCoins = [];
 
 async function fetchCryptoData() {
     try {
-        const response = await fetch('api_fetch.php');
+        const limit = document.getElementById('limitSelect').value;
+        console.log(`Buscando ${limit} moedas...`);
+        
+        // Mostrar feedback de carregamento na tabela
+        const tableBody = document.getElementById('cryptoTableBody');
+        if (tableBody.innerHTML === '') {
+            tableBody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 2rem;">Atualizando dados...</td></tr>';
+        }
+
+        const response = await fetch(`api_fetch.php?limit=${limit}`);
         const data = await response.json();
+        console.log(`Recebidas ${data.length} moedas.`);
 
         if (data.error) {
             console.error(data.error);
@@ -92,6 +102,11 @@ document.getElementById('searchInput').addEventListener('input', (e) => {
         coin.symbol.toLowerCase().includes(searchTerm)
     );
     renderDashboard(filteredCoins);
+});
+
+// Lógica de Limite (Quantidade de moedas)
+document.getElementById('limitSelect').addEventListener('change', () => {
+    fetchCryptoData();
 });
 
 // Lógica do Modal de Histórico
