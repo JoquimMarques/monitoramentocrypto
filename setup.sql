@@ -1,0 +1,20 @@
+CREATE DATABASE IF NOT EXISTS monitocrypto;
+USE monitocrypto;
+
+CREATE TABLE IF NOT EXISTS moedas (
+    id VARCHAR(50) PRIMARY KEY,
+    simbolo VARCHAR(10) NOT NULL,
+    nome VARCHAR(100) NOT NULL,
+    imagem VARCHAR(255),
+    preco_atual DECIMAL(20, 10),
+    variacao_24h DECIMAL(10, 5),
+    ultima_atualizacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS historico_precos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    moeda_id VARCHAR(50),
+    preco DECIMAL(20, 10),
+    data_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (moeda_id) REFERENCES moedas(id) ON DELETE CASCADE
+);
