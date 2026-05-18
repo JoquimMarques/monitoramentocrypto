@@ -8,12 +8,12 @@ include 'db_config.php';
 $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 20;
 if ($limit < 1 || $limit > 100) $limit = 20;
 
-$url = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=" . $limit . "&page=1&sparkline=false";
+$url = "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=" . $limit . "&page=1&sparkline=true";
 
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $url);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_USERAGENT, 'MonitoCrypto/1.0');
+curl_setopt($ch, CURLOPT_USERAGENT, 'SuperCrypto/1.0');
 curl_setopt($ch, CURLOPT_TIMEOUT, 10); // Timeout de 10 segundos
 
 $response = curl_exec($ch);
@@ -57,6 +57,10 @@ if ($coins) {
         $stmtHist = $pdo->prepare("INSERT INTO historico_precos (moeda_id, preco) VALUES (?, ?)");
         $stmtHist->execute([$coin['id'], $coin['current_price']]);
     }
+
+    // Limpar histórico antigo para evitar crescimento infinito do banco de dados (manter apenas as últimas 48 horas)
+    $pdo->exec("DELETE FROM historico_precos WHERE data_registro < DATE_SUB(NOW(), INTERVAL 48 HOUR)");
+
     echo json_encode($coins);
 } else {
     echo json_encode(['error' => 'Resposta da API inválida']);
